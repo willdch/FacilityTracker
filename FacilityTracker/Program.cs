@@ -74,7 +74,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Home");
+    return Task.CompletedTask;
+});
+
 app.MapRazorPages();
+
 
 await SeedAdminUserAsync(app);
 
