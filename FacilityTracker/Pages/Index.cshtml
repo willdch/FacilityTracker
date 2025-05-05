@@ -1,0 +1,21 @@
+﻿@page
+@model FacilityTracker.Pages.IndexModel
+@{
+    ViewData["Title"] = "Student Tracker";
+}
+
+<h2>Hello @Model.FirstName, Welcome to the Facilities Tracker.</h2>
+
+
+<partial name="_ValidationScriptsPartial" />
+<validation-summary class="text-danger" />
+
+
+@if (User.IsInRole("StaffMember"))
+{
+    <div style="margin-top: 20px;">
+        <a asp-page="/Users" class="btn btn-primary">View All Users</a>
+        <a asp-page="/Students" class="btn btn-secondary">View Students Only</a>
+    </div>
+}
+

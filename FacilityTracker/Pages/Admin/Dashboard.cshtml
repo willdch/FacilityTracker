@@ -1,0 +1,51 @@
+@page
+@using FacilityTracker.Models
+@model FacilityTracker.Pages.Admin.DashboardModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Manage Users</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.FirstName @user.LastName</td>
+            <td>@user.Email</td>
+            <td>@user.Role</td>
+            <td>
+                @if (user.Role == UserType.Admin)
+                {
+                    <span class="text-muted">You have full access</span>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="PromoteToManager" style="display:inline">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm btn-success me-1"
+                                @(user.Role == UserType.Manager ? "disabled" : "")>
+                            Promote to Manager
+                        </button>
+                    </form>
+                    <form method="post" asp-page-handler="PromoteToAdmin" style="display:inline">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm btn-warning">
+                            Promote to Admin
+                        </button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

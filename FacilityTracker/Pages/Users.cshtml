@@ -1,0 +1,14 @@
+@page
+@model FacilityTracker.Pages.UsersModel
+@{
+    ViewData["Title"] = "All Users";
+}
+
+<h1>All Users</h1>
+
+<ul>
+    @foreach (var user in Model.AllUsers)
+    {
+        <li>@user.FirstName @user.LastName - @user.Email - @user.Role</li>
+    }
+</ul>
