@@ -2,8 +2,15 @@ using Microsoft.AspNetCore.Identity;
 using FacilityTracker.Data;
 using Microsoft.EntityFrameworkCore;
 using FacilityTracker.Models;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add environment-specific configuration
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
 // Add EF Core with SQLite
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -18,12 +25,29 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationUserClaimsPrincipalFactory>();
 
-
-
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+// Apply migrations at startup
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    
+    try
+    {
+        logger.LogInformation("Applying database migrations...");
+        var db = services.GetRequiredService<ApplicationDbContext>();
+        db.Database.Migrate();
+        logger.LogInformation("Database migrations applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while applying database migrations");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -52,30 +76,43 @@ static async Task SeedAdminUserAsync(WebApplication app)
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
 
     var adminEmail = "admin@example.com";
     var adminPassword = "Admin123!";
 
-    var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
-    if (existingAdmin == null)
+    try
     {
-        var adminUser = new User
+        var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
+        if (existingAdmin == null)
         {
-            UserName = adminEmail,
-            Email = adminEmail,
-            FirstName = "System",
-            LastName = "Admin",
-            Role = UserType.Admin,
-            EmailConfirmed = true
-        };
-
-        var result = await userManager.CreateAsync(adminUser, adminPassword);
-        if (!result.Succeeded)
-        {
-            foreach (var error in result.Errors)
+            logger.LogInformation("Seeding admin user...");
+            var adminUser = new User
             {
-                Console.WriteLine($"Admin seeding error: {error.Description}");
+                UserName = adminEmail,
+                Email = adminEmail,
+                FirstName = "System",
+                LastName = "Admin",
+                Role = UserType.Admin,
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(adminUser, adminPassword);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    logger.LogError($"Admin seeding error: {error.Description}");
+                }
+            }
+            else
+            {
+                logger.LogInformation("Admin user created successfully.");
             }
         }
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "An error occurred while seeding admin user");
     }
 }
