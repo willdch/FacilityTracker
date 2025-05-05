@@ -1,0 +1,38 @@
+@* File: Pages/Facilities/Create.cshtml *@
+@page
+@model FacilityTracker.Pages.Facilities.CreateModel  
+@using FacilityTracker.Models                       
+
+@{
+    ViewData["Title"] = "Create Facility";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" class="mt-4">
+    <div class="form-group mb-3">
+        <label asp-for="Facility.Name" class="form-label"></label>
+        <input asp-for="Facility.Name" class="form-control" />
+        <span asp-validation-for="Facility.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Facility.Location" class="form-label"></label>
+        <input asp-for="Facility.Location" class="form-control" />
+        <span asp-validation-for="Facility.Location" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-page="/Home" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

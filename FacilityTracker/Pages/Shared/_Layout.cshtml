@@ -25,13 +25,23 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/About">About</a>
                     </li>
-                    @if (User.Identity.IsAuthenticated && 
+                    @if (User.Identity.IsAuthenticated &&
                          User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Admin")
                     {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Dashboard">Manage Users</a>
                         </li>
                     }
+                    
+                    @* @if (User.Identity.IsAuthenticated &&  *@
+                    @*      (User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Admin" || User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Manager")) *@
+                    @* { *@
+                    @*     <li class="nav-item"> *@
+                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Facilities/Create"> *@
+                    @*             Add Facility *@
+                    @*         </a> *@
+                    @*     </li> *@
+                    @* } *@
                 </ul>
                 <ul class="navbar-nav">
                     <partial name="_LoginPartial" />
