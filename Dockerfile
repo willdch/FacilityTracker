@@ -16,4 +16,5 @@ RUN dotnet publish "FacilityTracker.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN dotnet ef database update
 ENTRYPOINT ["dotnet", "FacilityTracker.dll"]
