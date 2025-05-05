@@ -32,19 +32,32 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Dashboard">Manage Users</a>
                         </li>
                     }
-                    
-                    @* @if (User.Identity.IsAuthenticated &&  *@
-                    @*      (User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Admin" || User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Manager")) *@
-                    @* { *@
-                    @*     <li class="nav-item"> *@
-                    @*         <a class="nav-link text-dark" asp-area="" asp-page="/Facilities/Create"> *@
-                    @*             Add Facility *@
-                    @*         </a> *@
-                    @*     </li> *@
-                    @* } *@
                 </ul>
                 <ul class="navbar-nav">
-                    <partial name="_LoginPartial" />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var firstName = User.Claims.FirstOrDefault(c => c.Type == "FirstName")?.Value ?? "";
+                        var lastName = User.Claims.FirstOrDefault(c => c.Type == "LastName")?.Value ?? "";
+                        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Hello @firstName @lastName
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-page="/Admin/UserProfile" asp-route-id="@userId">View Profile</a></li>
+                                <li>
+                                    <form method="post" asp-area="Identity" asp-page="/Account/Logout" id="logoutForm">
+                                        <button type="submit" class="dropdown-item">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <partial name="_LoginPartial" />
+                    }
                 </ul>
             </div>
         </div>
