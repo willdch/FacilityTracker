@@ -11,6 +11,8 @@ namespace FacilityTracker.Models
 
         [Required]
         public string LastName { get; set; } = null!;
+        
+        public string FullName => $"{FirstName} {LastName}";
 
         [Required]
         public UserType Role { get; set; }

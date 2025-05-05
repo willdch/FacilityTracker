@@ -35,4 +35,26 @@ body {
   background-color: #f8f9fa;
 }
 
+/* Profile form spacing and layout */
+.assign-staff-form {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  background-color: #f8f9fa;
+}
+
+/* Improve spacing between form elements */
+.assign-staff-form .form-label {
+  font-weight: 500;
+}
+
+.assign-staff-form .form-select {
+  max-width: 400px;
+}
+.assign-staff-form {
+  margin-top: 2rem;
+}
+
+
 
