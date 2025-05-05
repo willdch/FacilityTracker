@@ -61,6 +61,28 @@ namespace FacilityTracker.Pages.Admin
             }
             return RedirectToPage();
         }
+        
+        public async Task<IActionResult> OnPostDeleteUserAsync(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return NotFound();
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostDemoteAsync(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user != null && user.Role != UserType.Staff)
+            {
+                user.Role = UserType.Staff;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage();
+        }
+
 
     }
 }

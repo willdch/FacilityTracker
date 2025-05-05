@@ -25,3 +25,14 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: box-shadow 0.3s ease;
 }
+
+ .list-group-item a {
+   display: block;
+   width: 100%;
+ }
+
+.list-group-item a:hover {
+  background-color: #f8f9fa;
+}
+
+

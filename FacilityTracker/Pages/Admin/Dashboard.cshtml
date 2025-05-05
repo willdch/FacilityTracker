@@ -60,6 +60,17 @@
                                 <input type="hidden" name="id" value="@user.Id" />
                                 <button type="submit" class="btn btn-info btn-sm">Assign to Facility</button>
                             </form>
+                            <form method="get" asp-page="EditUser" asp-route-id="@user.Id" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                            </form>
+
+                            <form method="post" asp-page-handler="Demote" asp-route-id="@user.Id" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-warning" @(user.Role == UserType.Staff ? "disabled" : "")>Demote</button>
+                            </form>
+
+                            <form method="post" asp-page-handler="DeleteUser" asp-route-id="@user.Id" class="d-inline" onsubmit="return confirm('Are you sure?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
                         </div>
                     }
                 </td>

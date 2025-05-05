@@ -1,19 +1,47 @@
 @page "{id}"
+@using FacilityTracker.Models
 @model FacilityTracker.Pages.Admin.UserProfileModel
 @{
     ViewData["Title"] = "User Profile";
 }
 
-<h2>@Model.User.FirstName @Model.User.LastName</h2>
-<p><strong>Email:</strong> @Model.User.Email</p>
-<p><strong>Role:</strong> @Model.User.Role</p>
-@if (Model.User.Facility != null)
+<h2>@Model.ViewedUser.FirstName @Model.ViewedUser.LastName</h2>
+<p class="text-muted">Role: @Model.ViewedUser.Role</p>
+
+<hr />
+
+<div class="mb-3">
+    @* Show Edit if the current user is admin, manager (with permission), or the user themselves *@
+    @if ((Model.IsAdmin) ||
+         (Model.IsManager && Model.ViewedUser.Role != UserType.Admin) ||
+         Model.IsSelf)
+    {
+        <a class="btn btn-sm btn-primary me-2"
+           asp-page="/Admin/EditUser"
+           asp-route-id="@Model.ViewedUser.Id">
+            Edit Profile
+        </a>
+    }
+
+    @* Show Delete if current user is Admin OR Manager deleting Staff/Manager (but not self) *@
+    @if ((Model.IsAdmin && !Model.IsSelf) ||
+         (Model.IsManager && Model.ViewedUser.Role != UserType.Admin && !Model.IsSelf))
+    {
+        <form method="post" asp-page-handler="Delete" class="d-inline"
+              onsubmit="return confirm('Are you sure you want to delete this user?');">
+            <button type="submit" class="btn btn-sm btn-danger">Delete User</button>
+        </form>
+    }
+</div>
+
+<hr />
+
+<p>Email: @Model.ViewedUser.Email</p>
+@if (Model.ViewedUser.Facility != null)
 {
-    <p><strong>Facility:</strong> @Model.User.Facility.Name</p>
+    <p>Assigned Facility: @Model.ViewedUser.Facility.Name</p>
 }
 else
 {
-    <p><strong>Facility:</strong> Not assigned</p>
+    <p>Assigned Facility: None</p>
 }
-
-<a asp-page="/Admin/Dashboard" class="btn btn-secondary mt-3">← Back to Dashboard</a>

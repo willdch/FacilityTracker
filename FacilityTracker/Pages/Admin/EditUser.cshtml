@@ -1,0 +1,40 @@
+@page "{id}"
+@model FacilityTracker.Pages.Admin.EditUserModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h2>Edit User</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Input.FirstName"></label>
+        <input asp-for="Input.FirstName" class="form-control" />
+        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.LastName"></label>
+        <input asp-for="Input.LastName" class="form-control" />
+        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    @if (User.Claims.Any(c => c.Type == "role" && c.Value == "Admin"))
+    {
+        <div class="mb-3">
+            <label asp-for="Input.Role"></label>
+            <select asp-for="Input.Role" asp-items="Model.Roles" class="form-select"></select>
+            <span asp-validation-for="Input.Role" class="text-danger"></span>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="Dashboard" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
