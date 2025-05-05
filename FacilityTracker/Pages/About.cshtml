@@ -1,8 +1,75 @@
 ﻿@page
 @model FacilityTracker.Pages.AboutModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "About Facility Tracker";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to add details about your company.</p>
+<h2>About Facility Tracker</h2>
+
+<ul class="nav nav-tabs mb-4" id="aboutTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="features-tab" data-bs-toggle="tab" data-bs-target="#features" type="button" role="tab">App Features</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tech-tab" data-bs-toggle="tab" data-bs-target="#tech" type="button" role="tab">Tech Overview</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="aboutTabContent">
+    <div class="tab-pane fade show active" id="features" role="tabpanel">
+        <p><strong>Facility Tracker</strong> is a simple and powerful web application designed to help organizations manage their facilities and team members effectively.</p>
+
+        <h4>🏢 Manage Facilities</h4>
+        <ul>
+            <li><strong>Create new facilities</strong> and define key details like name and location.</li>
+            <li>View a list of all facilities in your organization on the home page.</li>
+            <li>Click on any facility to view a detailed <strong>facility profile</strong>, including assigned staff members.</li>
+        </ul>
+
+        <h4>👥 Manage Users</h4>
+        <ul>
+            <li><strong>Admins</strong> can view all users through the <strong>Admin Dashboard</strong>.</li>
+            <li><strong>Create new users</strong> directly from the dashboard and assign them roles (Admin, Manager, or Staff).</li>
+            <li><strong>Promote users</strong> to Manager or Admin roles as needed.</li>
+            <li>View individual <strong>user profiles</strong> by clicking on a user in the Admin Dashboard.</li>
+        </ul>
+
+        <h4>📋 Assign Staff to Facilities</h4>
+        <ul>
+            <li>Admins and Managers can assign Staff or other Managers to a facility.</li>
+            <li>Assigned users are displayed on the home page and facility profiles, under “Staff Members.”</li>
+        </ul>
+
+        <h4>🔐 Role-Based Access</h4>
+        <ul>
+            <li><strong>Admins</strong> have full control — they can create users, manage roles, and assign staff to any facility.</li>
+            <li><strong>Managers</strong> can create facilities and assign staff within their scope.</li>
+            <li><strong>Staff</strong> can log in, view their assigned facility, and see who else is on the team.</li>
+        </ul>
+        <p>This app keeps your facility organization clear, accessible, and up-to-date — whether you're managing one location or many.</p>
+    </div>
+
+    <div class="tab-pane fade" id="tech" role="tabpanel">
+        <h4>🧰 Technologies Used</h4>
+        <ul>
+            <li><strong>ASP.NET Core Razor Pages</strong> – for a clean and fast server-rendered web UI.</li>
+            <li><strong>Entity Framework Core</strong> – for ORM and database interaction.</li>
+            <li><strong>SQLite</strong> – lightweight development database, easily replaceable with PostgreSQL or SQL Server.</li>
+            <li><strong>ASP.NET Identity</strong> – for secure user authentication and role-based authorization.</li>
+            <li><strong>Bootstrap 5</strong> – for responsive, mobile-friendly UI design.</li>
+            <li><strong>JetBrains Rider</strong> – development done using Rider IDE with Git integration and Docker tools.</li>
+            <li><strong>GitHub</strong> – version control and code sharing.</li>
+            <li><strong>Railway</strong> – for cloud deployment and live hosting.</li>
+        </ul>
+
+        <h4>🧱 Architecture Overview</h4>
+        <ul>
+            <li><strong>Modular page structure</strong> with separation of concerns: Pages, Models, and Data layers.</li>
+            <li><strong>Role-based access control</strong> (RBAC) is implemented through policies and claim-based checks.</li>
+            <li>Forms use <strong>model binding</strong> and <strong>validation attributes</strong> for secure user input.</li>
+            <li>Seed data and custom claims ensure default admin and role functionality on startup.</li>
+        </ul>
+
+        <p>This app is a great example of building a scalable Razor Pages application with real-world patterns used in enterprise software.</p>
+    </div>
+</div>
