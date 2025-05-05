@@ -1,0 +1,48 @@
+@page "{id:int}"
+@model FacilityTracker.Pages.Facilities.ProfileModel
+@{
+    ViewData["Title"] = "Facility Profile";
+}
+
+<h2>@Model.Facility.Name</h2>
+<p class="text-muted">@Model.Facility.Location</p>
+
+<hr />
+
+<h4>Staff Members</h4>
+@if (Model.Facility.Users != null && Model.Facility.Users.Any())
+{
+    <ul class="list-group">
+        @foreach (var user in Model.Facility.Users)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @user.FirstName @user.LastName
+                <span class="badge bg-secondary">@user.Role</span>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No staff members assigned to this facility.</p>
+}
+
+<hr />
+<div class="card mt-4">
+    <h4>Info</h4>
+    <div>
+    <p>Facility 1 is a state-of-the-art operations center dedicated to supporting innovation, productivity, and collaboration. Located in the heart of the industrial district, Facility 1 spans over 50,000 square feet and includes specialized zones for manufacturing, logistics, administrative functions, and employee development.
+
+        From its inception, Facility 1 has been designed with adaptability and scalability in mind. With cutting-edge infrastructure and energy-efficient systems, the facility supports a variety of business operations while minimizing environmental impact. Smart lighting, climate control, and automated access systems ensure that the environment is both secure and comfortable for staff and visitors alike.
+
+        Inside Facility 1, you'll find modern meeting rooms, open-concept workspaces, and fully equipped break areas to foster teamwork and boost morale. The on-site training center provides staff with access to continuing education programs, safety workshops, and hands-on technical instruction.
+
+        Facility 1 also includes dedicated spaces for equipment storage, inventory management, and shipping coordination. These areas are integrated with digital tracking systems that offer real-time updates on supply levels and order fulfillment. Managers at Facility 1 work closely with assigned staff to streamline operations and continually improve service delivery.
+
+        With a strong focus on community and culture, Facility 1 also hosts seasonal events, staff appreciation days, and team-building activities. Whether you're part of the administrative team, production floor, or support services, Facility 1 offers the resources and environment to help you thrive.
+
+        Facility 1 isn’t just a building — it’s a hub for excellence, collaboration, and innovation.</p>
+        
+    </div>
+</div>
+<a asp-page="/Home" class="btn btn-outline-secondary mt-4">← Back to Home</a>

@@ -27,6 +27,9 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOrManager", policy =>
         policy.RequireClaim("role", "Admin", "Manager"));
+    
+    options.AddPolicy("Admin", policy =>
+        policy.RequireClaim("role", "Admin"));
 });
 
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, ApplicationUserClaimsPrincipalFactory>();

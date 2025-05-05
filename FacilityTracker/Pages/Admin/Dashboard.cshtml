@@ -4,48 +4,61 @@
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+    <h1 class="mb-2 mb-md-0">Manage Users</h1>
+    <a class="btn btn-primary" asp-area="" asp-page="/Admin/CreateUser">
+        + Create User
+    </a>
+</div>
 
-<h1>Manage Users</h1>
-
-<table class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var user in Model.Users)
-    {
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead class="table-light">
         <tr>
-            <td>@user.FirstName @user.LastName</td>
-            <td>@user.Email</td>
-            <td>@user.Role</td>
-            <td>
-                @if (user.Role == UserType.Admin)
-                {
-                    <span class="text-muted">You have full access</span>
-                }
-                else
-                {
-                    <form method="post" asp-page-handler="PromoteToManager" style="display:inline">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" class="btn btn-sm btn-success me-1"
-                                @(user.Role == UserType.Manager ? "disabled" : "")>
-                            Promote to Manager
-                        </button>
-                    </form>
-                    <form method="post" asp-page-handler="PromoteToAdmin" style="display:inline">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" class="btn btn-sm btn-warning">
-                            Promote to Admin
-                        </button>
-                    </form>
-                }
-            </td>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th style="min-width: 250px;">Actions</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.FirstName @user.LastName</td>
+                <td>@user.Email</td>
+                <td>@user.Role</td>
+                <td>
+                    @if (user.Role == UserType.Admin)
+                    {
+                        <span class="text-muted">You have full access</span>
+                    }
+                    else
+                    {
+                        <div class="d-flex flex-column flex-md-row gap-2">
+                            <form method="post" asp-page-handler="PromoteToManager">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-success btn-sm"
+                                        @(user.Role == UserType.Manager ? "disabled" : "")>
+                                    Promote to Manager
+                                </button>
+                            </form>
+                            <form method="post" asp-page-handler="PromoteToAdmin">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-warning btn-sm" 
+                                        @(user.Role == UserType.Admin ? "disabled" : "")>
+                                    Promote to Admin
+                                </button>
+                            </form>
+                            <form method="get" asp-page="/Facilities/AssignStaff">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-info btn-sm">Assign to Facility</button>
+                            </form>
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

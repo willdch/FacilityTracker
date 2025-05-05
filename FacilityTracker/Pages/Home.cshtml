@@ -10,51 +10,29 @@
     <h2>Hello @Model.FirstName, Welcome to the Facilities Tracker.</h2>
 </div>
 
-@if (Model.Role == UserType.Staff)
-{
-    
-    <div style="margin-top: 20px;">
-    <p> Welcome to the student tracker.  You can find a complete list of students below.</p>
-    </div>
-    <div>
-        <a asp-page="/Users/Index" class="btn btn-primary">View All Users</a>
-        <a asp-page="/Managers/Index" class="btn btn-secondary">View Managers Only</a>
-    </div>
-}
 <hr/>
 
 <div style="margin-top: 20px;">
     <p>Below is a list of all facilities.</p>
 </div>
 
-@if (Model.Facilities.Any())
+@foreach (var facility in Model.Facilities)
 {
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Facilities</h3>
-        <div>
-            @if (User.Identity.IsAuthenticated && 
-                 (User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Admin" || User.Claims.FirstOrDefault(c => c.Type == "role")?.Value == "Manager"))
-            {
-                    <a class="btn btn-sm btn-primary me-3" asp-area="" asp-page="/Facilities/Create">
-                       + Add Facility
-                    </a>
-            }
+    <a asp-page="/Facilities/Profile" asp-route-id="@facility.Id" class="text-decoration-none text-dark">
+        <div class="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center hover-shadow">
+            <div>
+                <h5 class="mb-1">@facility.Name</h5>
+                <p class="mb-0 text-muted">@facility.Location</p>
+            </div>
+            <div class="text-end">
+                <strong>Staff Members</strong>
+                <ul class="mb-0 ps-3 small">
+                    @foreach (var user in facility.Users)
+                    {
+                        <li style="list-style-type: none;">@user.FirstName @user.LastName</li>
+                    }
+                </ul>
+            </div>
         </div>
-    </div>
-    <ul class="list-group mb-4">
-        @foreach (var facility in Model.Facilities)
-        {
-            <li class="list-group-item">
-                <strong>@facility.Name</strong><br />
-                @if (!string.IsNullOrEmpty(facility.Location))
-                {
-                    <small class="text-muted">@facility.Location</small>
-                }
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>No facilities found.</p>
+    </a>
 }

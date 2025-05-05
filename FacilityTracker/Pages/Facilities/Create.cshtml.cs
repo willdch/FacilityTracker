@@ -35,7 +35,7 @@ namespace FacilityTracker.Pages.Facilities
 
             ModelState.Clear();
             Facility = new Facility(); // reset form
-            TempData["SuccessMessage"] = "Facility created successfully.";
+            TempData["ShowSuccessToast"] = true;
             return Page();
         }
     }

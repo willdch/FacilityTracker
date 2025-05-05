@@ -22,21 +22,22 @@ namespace FacilityTracker.Pages
         }
 
         public string FirstName { get; set; }
+        public string LastName { get; set; }
         public UserType Role { get; set; }
-        public List<Facility> Facilities { get; set; }
+        public List<Facility> Facilities { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return Challenge();
-            }
+            if (user == null) return Challenge(); 
 
             FirstName = user.FirstName;
+            LastName = user.LastName;
             Role = user.Role;
             
-            Facilities = await _context.Facilities.ToListAsync();
+            Facilities = await _context.Facilities
+                .Include(f => f.Users)
+                .ToListAsync();
 
             return Page();
         }

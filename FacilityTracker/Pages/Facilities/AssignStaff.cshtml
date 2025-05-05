@@ -1,0 +1,30 @@
+@page
+@model FacilityTracker.Pages.Facilities.AssignStaffModel
+@{
+    ViewData["Title"] = "Assign Staff to Facility";
+}
+
+<h2>Assign Staff to Facility</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="FacilityId" class="form-label">Select Facility</label>
+        <select asp-for="FacilityId" asp-items="Model.FacilityList" class="form-select">
+            <option value="">-- Select Facility --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserId" class="form-label">Select User</label>
+        <select asp-for="UserId" asp-items="Model.UserList" class="form-select">
+            <option value="">-- Select User --</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign</button>
+    <a asp-page="/Home" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
