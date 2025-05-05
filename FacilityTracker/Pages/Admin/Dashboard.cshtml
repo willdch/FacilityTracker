@@ -24,7 +24,8 @@
         <tbody>
         @foreach (var user in Model.Users)
         {
-            <tr>
+            <tr onclick="location.href='@Url.Page("/Admin/UserProfile", new { id = user.Id })'"
+                style="cursor: pointer;">
                 <td>@user.FirstName @user.LastName</td>
                 <td>@user.Email</td>
                 <td>@user.Role</td>
@@ -62,3 +63,10 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    document.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", e => e.stopPropagation());
+    });
+</script>
+

@@ -1,0 +1,19 @@
+@page "{id}"
+@model FacilityTracker.Pages.Admin.UserProfileModel
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<h2>@Model.User.FirstName @Model.User.LastName</h2>
+<p><strong>Email:</strong> @Model.User.Email</p>
+<p><strong>Role:</strong> @Model.User.Role</p>
+@if (Model.User.Facility != null)
+{
+    <p><strong>Facility:</strong> @Model.User.Facility.Name</p>
+}
+else
+{
+    <p><strong>Facility:</strong> Not assigned</p>
+}
+
+<a asp-page="/Admin/Dashboard" class="btn btn-secondary mt-3">← Back to Dashboard</a>
