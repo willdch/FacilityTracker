@@ -1,0 +1,28 @@
+@page "{id:int}"
+@model FacilityTracker.Pages.Facilities.EditModel
+@{
+    ViewData["Title"] = "Edit Facility";
+}
+
+<h2>Edit Facility</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Facility.Name" class="form-label"></label>
+        <input asp-for="Facility.Name" class="form-control" />
+        <span asp-validation-for="Facility.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Facility.Location" class="form-label"></label>
+        <input asp-for="Facility.Location" class="form-control" />
+        <span asp-validation-for="Facility.Location" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="/Facilities/Profile" asp-route-id="@Model.Facility.Id" class="btn btn-secondary ms-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

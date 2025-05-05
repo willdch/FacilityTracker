@@ -18,18 +18,33 @@ namespace FacilityTracker.Pages.Facilities
             _context = context;
         }
 
+        [BindProperty(SupportsGet = true)]
+        public int Id { get; set; }
+
         public Facility Facility { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public async Task<IActionResult> OnGetAsync()
         {
             Facility = await _context.Facilities
                 .Include(f => f.Users)
-                .FirstOrDefaultAsync(f => f.Id == id);
+                .FirstOrDefaultAsync(f => f.Id == Id);
 
             if (Facility == null)
                 return NotFound();
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync()
+        {
+            var facility = await _context.Facilities.FindAsync(Id);
+            if (facility != null)
+            {
+                _context.Facilities.Remove(facility);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("/Home");
         }
     }
 }
